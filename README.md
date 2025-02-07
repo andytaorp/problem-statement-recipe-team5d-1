@@ -3,7 +3,7 @@
 
 
 Task Description:
-Lucus: Worked on - Add Recipe,  AI Integration
+Lucus: Worked on - Add Recipe
 Natasha: Worked on - Delete Recipe, Log in, Sign Up
 Emmanuel: Worked on - Update Recipe, Protect Routes
 Chelyn: Worked on - Display All Recipe, FrontEnd Integration, Log Out Function
