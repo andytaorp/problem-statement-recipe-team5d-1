@@ -4,7 +4,7 @@ export const RecipesContext = createContext();
 
 export const recipesReducer = (state, action) => {
   switch (action.type) {
-    case 'SET_RECIPES':
+    case 'SET_RECIPES': 
       return {
         recipes: action.payload
       };
@@ -14,11 +14,11 @@ export const recipesReducer = (state, action) => {
       };
     case 'DELETE_RECIPE':
       return {
-        recipes: state.recipes.filter(r => r._id !== action.payload._id)
+        recipes: state.recipes.filter((r) => r._id !== action.payload._id)
       };
     case 'UPDATE_RECIPE':
       return {
-        recipes: state.recipes.map(r => r._id === action.payload._id ? action.payload : r)
+        recipes: state.recipes.map((r) => r._id === action.payload._id ? action.payload : r)
       };
     default:
       return state;
@@ -26,7 +26,9 @@ export const recipesReducer = (state, action) => {
 };
 
 export const RecipesContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(recipesReducer, { recipes: [] });
+  const [state, dispatch] = useReducer(recipesReducer, {
+    recipes: null
+  });
 
   return (
     <RecipesContext.Provider value={{ ...state, dispatch }}>

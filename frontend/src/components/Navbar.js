@@ -1,32 +1,38 @@
-import { Link } from 'react-router-dom';
-import { useAuthContext } from '../hooks/useAuthContext';
+import { Link } from 'react-router-dom'
+import { useLogout } from '../hooks/useLogout'
+import { useAuthContext } from '../hooks/useAuthContext'
 
 const Navbar = () => {
-  const { user, dispatch } = useAuthContext();
+  const { logout } = useLogout()
+  const { user } = useAuthContext()
 
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    dispatch({ type: 'LOGOUT' });
-  };
+  const handleClick = () => {
+    logout()
+  }
 
   return (
-    <nav>
-      <h1>Recipe App</h1>
-      <div>
-        {user ? (
-          <>
-            <span>{user.email}</span>
-            <button onClick={handleLogout}>Logout</button>
-          </>
-        ) : (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
-          </>
-        )}
+    <header>
+      <div className="container">
+        <Link to="/">
+          <h1>Recipe App</h1>
+        </Link>
+        <nav>
+          {user && (
+            <div>
+              <span>{user.email}</span>
+              <button onClick={handleClick}>Log out</button>
+            </div>
+          )}
+          {!user && (
+            <div>
+              <Link to="/login">Login</Link>
+              <Link to="/signup">Signup</Link>
+            </div>
+          )}
+        </nav>
       </div>
-    </nav>
-  );
-};
+    </header>
+  )
+}
 
-export default Navbar;
+export default Navbar

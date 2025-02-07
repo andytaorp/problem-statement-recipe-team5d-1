@@ -1,43 +1,34 @@
-import { useEffect, useState } from 'react'
-import { useAuthContext } from "../hooks/useAuthContext"
-
-// components
-import RecipeDetails from '../components/RecipeDetails'
-import RecipeForm from '../components/RecipeForm'
+import { useEffect } from 'react';
+import { useRecipesContext } from '../hooks/useRecipesContext';
+import RecipeDetails from '../components/RecipeDetails';
+import RecipeForm from '../components/RecipeForm';
 
 const Home = () => {
-    const [recipes, setRecipes] = useState([])
-    const { user } = useAuthContext()
+  const { recipes, dispatch } = useRecipesContext();
 
-    useEffect(() => {
-        const fetchRecipes = async () => {
-            if (!user) return
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      const response = await fetch('/api/recipes');
+      const json = await response.json();
 
-            const response = await fetch('/api/recipes', {
-                headers: { 'Authorization': `Bearer ${user.token}` },
-            })
-            const json = await response.json()
+      if (response.ok) {
+        dispatch({ type: 'SET_RECIPES', payload: json });
+      }
+    };
 
-            if (response.ok) {
-                setRecipes(json)
-            }
-        }
+    fetchRecipes();
+  }, [dispatch]);
 
-        if (user) {
-            fetchRecipes()
-        }
-    }, [user])
+  return (
+    <div className="home">
+      <div className="recipes">
+        {recipes && recipes.map(recipe => (
+          <RecipeDetails key={recipe._id} recipe={recipe} />
+        ))}
+      </div>
+      <RecipeForm />
+    </div>
+  );
+};
 
-    return (
-        <div className="home">
-            <div className="recipes">
-                {recipes && recipes.map((recipe) => (
-                    <RecipeDetails key={recipe._id} recipe={recipe} />
-                ))}
-            </div>
-            <RecipeForm />
-        </div>
-    )
-}
-
-export default Home
+export default Home;

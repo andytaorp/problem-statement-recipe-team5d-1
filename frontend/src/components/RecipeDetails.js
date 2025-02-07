@@ -1,9 +1,6 @@
-import { useAuthContext } from '../hooks/useAuthContext';
 import { useRecipesContext } from '../hooks/useRecipesContext';
-import EditRecipe from './EditRecipe'; 
-
-// date fns
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import { useAuthContext } from '../hooks/useAuthContext';
+import { formatDistanceToNow } from 'date-fns';
 
 const RecipeDetails = ({ recipe }) => {
   const { dispatch } = useRecipesContext();
@@ -35,7 +32,6 @@ const RecipeDetails = ({ recipe }) => {
       <p><strong>Difficulty:</strong> {recipe.difficulty}</p>
       <p>{formatDistanceToNow(new Date(recipe.createdAt), { addSuffix: true })}</p>
       <span className="material-symbols-outlined" onClick={handleClick}>delete</span>
-      <EditRecipe recipe={recipe} /> {/* Use EditRecipe */}
     </div>
   );
 };
